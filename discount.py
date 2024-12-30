@@ -6,9 +6,14 @@ import time
 
 class DiscountDetector:
     def __init__(self):
-        self.driver = webdriver.Chrome()
+        pass
+        # self.driver = webdriver.Chrome()
+        # self.driver.implicitly_wait(3)
 
     def Detect(self, url):
+
+        self.driver.get(url)
+
         tags = ["discount", "coupon", "promo"]
 
         for tag in tags:
@@ -18,3 +23,10 @@ class DiscountDetector:
                 return input_field
             except:
                 continue
+                
+        self.driver.quit()
+
+        
+# if __name__== "__main__":
+#     detector = DiscountDetector()
+#     detector.Detect('https://www.bespokepost.com/cart/checkout?step=guest_account')
