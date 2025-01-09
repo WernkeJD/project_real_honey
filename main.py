@@ -5,6 +5,7 @@ import time
 
 from scrapers import Discount_scraper
 from flask import Flask, jsonify, request
+from discount import *
 
 # http://localhost:5000/search_coupons?website=nordvpn
 
@@ -50,6 +51,7 @@ def search_coupons():
     coupons = []
 
     for result in search_results[:20]:
+        print("result ", result)
         link = result.find_element(By.XPATH, "..").get_attribute("href")
 
         if any(domain in link for domain in allowed_domains):
@@ -59,6 +61,10 @@ def search_coupons():
             })
 
             discount_scraper.scrape(link)
+    
+    # with open("coupons.txt", "w") as f:
+    #     for item in coupons:
+    #         f.write(item + "\n")
 
     return jsonify(coupons)
 

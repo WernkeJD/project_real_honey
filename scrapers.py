@@ -28,17 +28,26 @@ class Discount_scraper:
             # Manage new window/tab
             if len(self.driver.window_handles) > 1:
                 self.driver.switch_to.window(self.driver.window_handles[-1])
+                print("driver is looking at" , self.driver.title)
                 coupon_code_element = self.driver.find_elements(By.XPATH, '//*[@id="code"]')
                 
                 if coupon_code_element:
                     coupon_code = coupon_code_element[0].get_attribute('value')
                     print(f'Coupon Code: {coupon_code}')
                     discounts.append(coupon_code)
+                    close_button = self.driver.find_elements(By.CSS_SELECTOR, 'div.close-icon')
+                    clickable_close_button = close_button[0]
+                    clickable_close_button.click()
                 else:
                     print('No coupon code found')
+                    close_button = self.driver.find_elements(By.CSS_SELECTOR, 'div.close-icon')
+                    clickable_close_button = close_button[0]
+                    clickable_close_button.click()
 
+                self.driver.switch_to.window(self.driver.window_handles[-2])
                 self.driver.close()
-                self.driver.switch_to.window(self.driver.window_handles[0])
+                self.driver.switch_to.window(self.driver.window_handles[-1])
+
 
             i += 1
 

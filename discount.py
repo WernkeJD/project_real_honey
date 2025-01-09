@@ -5,10 +5,8 @@ from selenium.webdriver.chrome.options import Options
 import time
 
 class DiscountDetector:
-    def __init__(self):
-        pass
-        # self.driver = webdriver.Chrome()
-        # self.driver.implicitly_wait(3)
+    def __init__(self, driver):
+        self.driver = driver
 
     def Detect(self, url):
 
