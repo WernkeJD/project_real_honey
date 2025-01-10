@@ -51,8 +51,12 @@ def search_coupons():
     coupons = []
 
     for result in search_results[:20]:
-        print("result ", result)
-        link = result.find_element(By.XPATH, "..").get_attribute("href")
+        try:
+            link = result.find_element(By.XPATH, "..").get_attribute("href")
+            
+        except Exception as e:
+            print(f"Error finding link: {e}")
+            continue  # Skip this result and move to the next
 
         if any(domain in link for domain in allowed_domains):
             coupons.append({
@@ -60,13 +64,9 @@ def search_coupons():
                 'link': link
             })
 
-            discount_scraper.scrape(link)
-    
-    # with open("coupons.txt", "w") as f:
-    #     for item in coupons:
-    #         f.write(item + "\n")
+            discounts = discount_scraper.scrape(link)
 
-    return jsonify(coupons)
+    return jsonify(discounts)
 
 if __name__ == '__main__':
     app.run()
